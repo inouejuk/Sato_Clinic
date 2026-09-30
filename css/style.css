@@ -1,0 +1,2 @@
+/* 指定の css/style.css から、素材フォルダー内のメインCSSを読み込みます。 */
+@import url("../assets/css/style.css");
