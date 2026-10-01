@@ -11,8 +11,8 @@
 
 /* 色・余白・写真のサイズは、添付されたPC／スマホのデザインを基準に設定。 */
 :root {
-  --ink: #2e3d37;
-  --green: #09d46f;
+  --ink: #333333;
+  --green: #03954C;
   --card: #b5f2d4;
   --white: #ffffff;
   --body-size: clamp(1rem, 1.25vw, 1.5rem);
