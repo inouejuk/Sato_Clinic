@@ -2076,8 +2076,285 @@ section[id] {
   }
 }
 
+.carousel-navigation {
+  display: none;
+}
+
+.mobile-carousel {
+  min-width: 0;
+}
+
+.mobile-carousel:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: -3px;
+}
+
+.carousel-slide[id] {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+/* スマホの写真とスタッフ紹介は、原稿を保ったまま横にスワイプできます。 */
+@media (max-width: 767px) {
+
+  .gallery.mobile-carousel,
+  .staff .mobile-carousel {
+    --carousel-gap: 16px;
+    --carousel-peek: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--carousel-gap);
+    padding: 0 24px 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 24px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green) var(--card);
+  }
+
+  /* フェードアップ中の画像による、写真欄内部の縦スクロールを防ぎます。 */
+  .gallery.mobile-carousel {
+    overflow-y: hidden;
+  }
+
+  .mobile-carousel>.carousel-slide {
+    flex: 0 0 calc(100% - var(--carousel-peek));
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* 最後のスライドも、先頭と同じ余白で止まるよう末尾に空間を設けます。 */
+  .mobile-carousel::after {
+    content: "";
+    flex: 0 0 calc(var(--carousel-peek) - var(--carousel-gap));
+  }
+
+  .subpage .staff .mobile-carousel {
+    margin-inline: -24px;
+  }
+
+  .staff .mobile-carousel .feature-copy,
+  .staff .mobile-carousel .feature-card:nth-child(even) .feature-copy {
+    padding: 24px 0 0;
+  }
+
+  .staff .mobile-carousel .feature-copy h3 {
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 6.5vw, 1.75rem);
+  }
+
+  .carousel-navigation {
+    --carousel-dot: #7c817e;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4px;
+    padding-inline: 24px;
+  }
+
+  .carousel-navigation ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+  }
+
+  .carousel-navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .carousel-navigation a::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--carousel-dot);
+  }
+
+  /* Safariなどでは、横スクロールの進行に合わせて丸の色を段階的に切り替えます。 */
+  @supports (animation-timeline: scroll()) and (timeline-scope: --carousel-scroll) and (not (scroll-target-group: auto)) {
+    main {
+      timeline-scope: --gallery-scroll;
+    }
+
+    .gallery.mobile-carousel {
+      scroll-timeline: --gallery-scroll inline;
+    }
+
+    .staff>.content {
+      timeline-scope: --staff-scroll;
+    }
+
+    .staff .mobile-carousel {
+      scroll-timeline: --staff-scroll inline;
+    }
+
+    .carousel-navigation {
+      display: flex;
+    }
+
+    .carousel-navigation a::before {
+      animation: carousel-dot-four-first 1s steps(1, end) both;
+      animation-timeline: --staff-scroll;
+    }
+
+    .carousel-navigation li:nth-child(2) a::before {
+      animation-name: carousel-dot-four-second;
+    }
+
+    .carousel-navigation li:nth-child(3) a::before {
+      animation-name: carousel-dot-four-third;
+    }
+
+    .carousel-navigation li:nth-child(4) a::before {
+      animation-name: carousel-dot-four-last;
+    }
+
+    .gallery+.carousel-navigation a::before {
+      animation-name: carousel-dot-three-first;
+      animation-timeline: --gallery-scroll;
+    }
+
+    .gallery+.carousel-navigation li:nth-child(2) a::before {
+      animation-name: carousel-dot-three-second;
+    }
+
+    .gallery+.carousel-navigation li:nth-child(3) a::before {
+      animation-name: carousel-dot-three-last;
+    }
+  }
+
+  /* 対応ブラウザーでは、表示中の対象をブラウザーに直接判定させます。 */
+  @supports (scroll-target-group: auto) {
+    .carousel-navigation {
+      display: flex;
+    }
+
+    .carousel-navigation ul {
+      scroll-target-group: auto;
+    }
+
+    .carousel-navigation a:target-current::before {
+      background: var(--green);
+    }
+  }
+}
+
+/* スライドの幅が等しいため、各スライドの中間で表示中の丸を切り替えます。 */
+@keyframes carousel-dot-three-first {
+  0% {
+    background: var(--green);
+  }
+
+  25%,
+  100% {
+    background: var(--carousel-dot);
+  }
+}
+
+@keyframes carousel-dot-three-second {
+  0% {
+    background: var(--carousel-dot);
+  }
+
+  25% {
+    background: var(--green);
+  }
+
+  75%,
+  100% {
+    background: var(--carousel-dot);
+  }
+}
+
+@keyframes carousel-dot-three-last {
+  0% {
+    background: var(--carousel-dot);
+  }
+
+  75%,
+  100% {
+    background: var(--green);
+  }
+}
+
+@keyframes carousel-dot-four-first {
+  0% {
+    background: var(--green);
+  }
+
+  16.666667%,
+  100% {
+    background: var(--carousel-dot);
+  }
+}
+
+@keyframes carousel-dot-four-second {
+  0% {
+    background: var(--carousel-dot);
+  }
+
+  16.666667% {
+    background: var(--green);
+  }
+
+  50%,
+  100% {
+    background: var(--carousel-dot);
+  }
+}
+
+@keyframes carousel-dot-four-third {
+  0% {
+    background: var(--carousel-dot);
+  }
+
+  50% {
+    background: var(--green);
+  }
+
+  83.333333%,
+  100% {
+    background: var(--carousel-dot);
+  }
+}
+
+@keyframes carousel-dot-four-last {
+  0% {
+    background: var(--carousel-dot);
+  }
+
+  83.333333%,
+  100% {
+    background: var(--green);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html {
+
+  html,
+  .gallery.mobile-carousel,
+  .staff .mobile-carousel {
     scroll-behavior: auto;
   }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }

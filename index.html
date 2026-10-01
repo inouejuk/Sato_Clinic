@@ -9,6 +9,7 @@
   <title>佐藤医院 | 地域に根差した医療</title>
   <link rel="icon" href="./assets/images/Logo/logo.png" type="image/png">
   <link rel="stylesheet" href="./css/style.css">
+  <script src="./assets/js/script.js" defer></script>
 </head>
 
 <body>
@@ -54,17 +55,33 @@
       <h1>地域に根差した医療</h1>
     </section>
 
-    <div class="gallery" role="group" aria-label="診療と院内の様子">
-      <img src="./assets/images/Medical_Image/medical_1.jpg" alt="患者様へ丁寧に説明する医師" loading="lazy" decoding="async">
-      <img src="./assets/images/Hospital_Exterior/hospital_5.jpg" alt="清潔で明るい院内の通路" loading="lazy" decoding="async">
-      <img src="./assets/images/Infomation_Image/information_4.jpg" alt="笑顔で患者様を迎える受付" loading="lazy" decoding="async">
+    <div class="gallery mobile-carousel" role="region" aria-label="診療と院内の様子（写真3枚）" tabindex="0">
+      <figure id="gallery-photo-1" class="carousel-slide">
+        <img src="./assets/images/Medical_Image/medical_1.jpg" alt="患者様へ丁寧に説明する医師" loading="lazy" decoding="async"
+          class="fade-up">
+      </figure>
+      <figure id="gallery-photo-2" class="carousel-slide">
+        <img src="./assets/images/Hospital_Exterior/hospital_5.jpg" alt="清潔で明るい院内の通路" loading="lazy" decoding="async"
+          class="fade-up">
+      </figure>
+      <figure id="gallery-photo-3" class="carousel-slide">
+        <img src="./assets/images/Infomation_Image/information_4.jpg" alt="笑顔で患者様を迎える受付" loading="lazy" decoding="async"
+          class="fade-up">
+      </figure>
     </div>
+    <nav class="carousel-navigation" aria-label="診療と院内の写真を選ぶ">
+      <ul>
+        <li><a href="#gallery-photo-1" aria-label="写真1：診療の様子"></a></li>
+        <li><a href="#gallery-photo-2" aria-label="写真2：院内の通路"></a></li>
+        <li><a href="#gallery-photo-3" aria-label="写真3：受付の様子"></a></li>
+      </ul>
+    </nav>
 
     <!-- お知らせ：見出しを押すと本文が開きます。 -->
     <section id="news" class="news">
       <div class="content news-grid">
-        <img src="./assets/images/Hospital_Exterior/hospital_8.jpg" alt="設備が整った院内の診察室" class="news-photo" loading="lazy"
-          decoding="async">
+        <img src="./assets/images/Hospital_Exterior/Mask group.png" alt="設備が整った院内の診察室" class="news-photo" loading="lazy"
+          decoding="async" class="fade-up">
         <div class="news-content">
           <div class="section-heading">
             <h2>お知らせ</h2><span class="heading-icon" aria-hidden="true"><img src="./assets/images/icons/02_news.png"
@@ -116,8 +133,8 @@
     <!-- ご挨拶 -->
     <section id="greeting" class="greeting green-panel">
       <div class="content greeting-grid">
-        <div class="greeting-photo photo-sato-taro"><img src="./assets/images/Doctor_Image/sato_taro.jpg" alt="院長 佐藤太郎"
-            loading="lazy" decoding="async"></div>
+        <div class="greeting-photo photo-sato-taro" class="fade-up"><img
+            src="./assets/images/Doctor_Image/sato_taro.jpg" alt="院長 佐藤太郎" loading="lazy" decoding="async"></div>
         <div class="section-heading">
           <h2>ご挨拶</h2><span class="heading-icon heading-icon--greeting" aria-hidden="true"><img
               src="./assets/images/icons/greeting.png" alt="" loading="lazy" decoding="async"></span>
@@ -210,8 +227,8 @@
         </div>
         <p class="staff-intro">
           地域の皆様に安心してご来院いただけるよう、スタッフ一同、誠心誠意対応いたします。それぞれの専門性と温かさを活かし、皆様の健康を支えるパートナーとしてお力になれるよう努めてまいります。</p>
-        <div class="feature-list">
-          <article class="feature-card">
+        <div class="feature-list mobile-carousel" role="region" aria-label="スタッフ紹介（4名）" tabindex="0">
+          <article id="staff-sato-taro" class="feature-card carousel-slide">
             <div class="feature-photo photo-sato-taro"><img src="./assets/images/Doctor_Image/sato_taro.jpg"
                 alt="院長：佐藤 太郎" loading="lazy" decoding="async"></div>
             <div class="feature-copy">
@@ -223,7 +240,7 @@
               </ul>
             </div>
           </article>
-          <article class="feature-card">
+          <article id="staff-suzuki-mari" class="feature-card carousel-slide">
             <div class="feature-photo photo-suzuki-mari"><img src="./assets/images/Doctor_Image/suzuki_mari.jpg"
                 alt="看護師長：鈴木 真理" loading="lazy" decoding="async"></div>
             <div class="feature-copy">
@@ -235,7 +252,7 @@
               </ul>
             </div>
           </article>
-          <article class="feature-card">
+          <article id="staff-takahashi-yumi" class="feature-card carousel-slide">
             <div class="feature-photo photo-takahashi-yumi"><img src="./assets/images/Doctor_Image/takahashi_yumi.jpg"
                 alt="臨床検査技師：高橋 由美" loading="lazy" decoding="async"></div>
             <div class="feature-copy">
@@ -247,7 +264,7 @@
               </ul>
             </div>
           </article>
-          <article class="feature-card">
+          <article id="staff-yamamoto-hana" class="feature-card carousel-slide">
             <div class="feature-photo photo-yamamoto-hana"><img src="./assets/images/Doctor_Image/yamamoto_hana.jpg"
                 alt="医療事務：山本 花" loading="lazy" decoding="async"></div>
             <div class="feature-copy">
@@ -260,6 +277,14 @@
             </div>
           </article>
         </div>
+        <nav class="carousel-navigation" aria-label="スタッフを選ぶ">
+          <ul>
+            <li><a href="#staff-sato-taro" aria-label="院長：佐藤 太郎の紹介を見る"></a></li>
+            <li><a href="#staff-suzuki-mari" aria-label="看護師長：鈴木 真理の紹介を見る"></a></li>
+            <li><a href="#staff-takahashi-yumi" aria-label="臨床検査技師：高橋 由美の紹介を見る"></a></li>
+            <li><a href="#staff-yamamoto-hana" aria-label="医療事務：山本 花の紹介を見る"></a></li>
+          </ul>
+        </nav>
       </div>
     </section>
 
@@ -359,7 +384,7 @@
         <p>循環器科</p>
         <p>呼吸器科</p>
         <p>心療内科</p>
-        <p>予防医療・健康診断</p>
+        <p>予防医療／健康診断</p>
         <p>生活習慣病（高血圧、糖尿病等）の治療・管理</p>
       </div>
       <p class="department-note">その他、ご不明点があればお電話またはメールでお問い合わせください。</p>
