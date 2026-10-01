@@ -2114,11 +2114,6 @@ section[id] {
     scrollbar-color: var(--green) var(--card);
   }
 
-  /* フェードアップ中の画像による、写真欄内部の縦スクロールを防ぎます。 */
-  .gallery.mobile-carousel {
-    overflow-y: hidden;
-  }
-
   .mobile-carousel>.carousel-slide {
     flex: 0 0 calc(100% - var(--carousel-peek));
     min-width: 0;
@@ -2347,14 +2342,23 @@ section[id] {
 }
 
 .fade-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
-.fade-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+/* 写真のフェードアップは、PCレイアウトと同じ768px以上で有効にします。 */
+@media (min-width: 768px) {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s ease;
+  }
+
+  .fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
