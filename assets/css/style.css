@@ -20,6 +20,7 @@
   --title-size: clamp(1.5rem, 2.083333vw, 2.5rem);
   --section-space: clamp(5rem, 8.333333vw, 10rem);
   --card-height: clamp(20rem, 27.777778vw, 33.333333rem);
+  --header-height: min(10.416667vw, 200px);
   color: var(--ink);
   font-family: "Noto Sans JP", sans-serif;
   font-size: 16px;
@@ -90,7 +91,12 @@ summary:focus-visible {
 }
 
 section[id] {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+#mental-health,
+#hours {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
 }
 
 .content {
@@ -125,13 +131,15 @@ section[id] {
   transform: translateY(0);
 }
 
-/* ヘッダーはPCではヒーロー写真に重ね、スマホでは写真の上に配置します。 */
+/* PCのヘッダーはヒーローに重ねたままスクロールに追従します。 */
 .site-header {
-  position: absolute;
-  inset: 0 0 auto;
+  position: sticky;
+  top: 0;
   z-index: 10;
   display: flex;
   align-items: flex-start;
+  height: var(--header-height);
+  margin-bottom: calc(-1 * var(--header-height));
 }
 
 .brand {
@@ -160,7 +168,7 @@ section[id] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1.388889vw;
+  gap: .75vw;
   padding: 0;
   list-style: none;
 }
@@ -168,12 +176,12 @@ section[id] {
 .desktop-nav a {
   display: block;
   white-space: nowrap;
-  padding: .22em .65em .27em;
+  padding: .22em .5em .27em;
   border: 3px solid var(--green);
   border-radius: .45em;
   background: rgb(255 255 255 / 88%);
   color: var(--green);
-  font-size: clamp(1rem, 1.666667vw, 2rem);
+  font-size: clamp(.875rem, 1.25vw, 1.5rem);
   font-weight: 700;
   line-height: 1.3;
   box-shadow: inset 0 0 0 3px var(--white);
@@ -194,6 +202,29 @@ section[id] {
   max-height: 1200px;
   overflow: hidden;
   border-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
+}
+
+/* ロゴの右上と左下に接する画像の角を、白い切り抜きで丸めます。 */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: clamp(1.5rem, 2.777778vw, 3.333333rem);
+  aspect-ratio: 1;
+  background: var(--white);
+  border-bottom-right-radius: 100%;
+  pointer-events: none;
+}
+
+.hero::before {
+  top: 0;
+  left: 20.833333%;
+}
+
+.hero::after {
+  top: var(--header-height);
+  left: 0;
 }
 
 .hero>img {
@@ -852,25 +883,14 @@ section[id] {
   }
 }
 
-/* スマホ版：写真を先頭に置き、カードのグリーンを外して原稿を縦に配置。 */
-@media (max-width: 767px) {
-  :root {
-    --body-size: 1.25rem;
-    --heading-size: 3rem;
-    --title-size: 2rem;
-    --section-space: 3.5rem;
-  }
-
-  body {
-    line-height: 1.6;
-  }
-
-  .content {
-    width: 100%;
-  }
+/* タブレット以下は8項目を収めるため、追従する開閉メニューに切り替えます。 */
+@media (max-width: 900px) {
+  :root { --header-height: 110px; }
 
   .site-header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    margin-bottom: 0;
     align-items: center;
     justify-content: space-between;
     height: 110px;
@@ -952,6 +972,8 @@ section[id] {
     left: 0;
     right: 0;
     padding: 1rem 1.5rem;
+    max-height: calc(100dvh - var(--header-height));
+    overflow-y: auto;
     background: rgb(255 255 255 / 97%);
     box-shadow: 0 8px 16px rgb(46 61 55 / 12%);
   }
@@ -967,6 +989,27 @@ section[id] {
     border-bottom: 1px solid var(--card);
     font-size: 1.25rem;
     font-weight: 700;
+  }
+
+  .hero::before,
+  .hero::after { display: none; }
+}
+
+/* スマホ版：写真を先頭に置き、カードのグリーンを外して原稿を縦に配置。 */
+@media (max-width: 767px) {
+  :root {
+    --body-size: 1.25rem;
+    --heading-size: 3rem;
+    --title-size: 2rem;
+    --section-space: 3.5rem;
+  }
+
+  body {
+    line-height: 1.6;
+  }
+
+  .content {
+    width: 100%;
   }
 
   .hero {
@@ -1363,6 +1406,7 @@ section[id] {
   :root {
     --body-size: 1.25rem;
     --heading-size: 2.5rem;
+    --header-height: 96px;
   }
 
   .site-header {
@@ -1409,7 +1453,9 @@ section[id] {
 
 /* 下層ページ：トップと同じ色・写真・角丸を使い、長い原稿を読みやすく配置。 */
 .subpage .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  margin-bottom: 0;
   align-items: center;
   background: var(--white);
 }
@@ -1545,7 +1591,7 @@ section[id] {
 }
 
 .subpage .feature-card[id] {
-  scroll-margin-top: 2rem;
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
 }
 
 .subpage .feature-copy h2 {
