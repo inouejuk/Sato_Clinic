@@ -196,53 +196,224 @@ section[id] {
   display: none;
 }
 
-.hero {
-  position: relative;
-  height: 62.5vw;
-  max-height: 1200px;
-  overflow: hidden;
-  border-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
+@media not all {
+  .hero {
+    position: relative;
+    height: 62.5vw;
+    max-height: 1200px;
+    overflow: hidden;
+    border-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
+  }
+
+  /* ロゴの右上と左下に接する画像の角を、白い切り抜きで丸めます。 */
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: clamp(1.5rem, 2.777778vw, 3.333333rem);
+    aspect-ratio: 1;
+    background: var(--white);
+    border-bottom-right-radius: 100%;
+    pointer-events: none;
+  }
+
+  .hero::before {
+    top: 0;
+    left: 20.833333%;
+  }
+
+  .hero::after {
+    top: var(--header-height);
+    left: 0;
+  }
+
+  .hero>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .hero h1 {
+    position: absolute;
+    left: 2.777778%;
+    bottom: 6.111111%;
+    padding: .04em .35em .12em;
+    border: 3px solid var(--green);
+    border-radius: .24em;
+    background: rgb(255 255 255 / 82%);
+    color: var(--green);
+    font-size: clamp(2.5rem, 5vw, 6rem);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  /
 }
 
-/* ロゴの右上と左下に接する画像の角を、白い切り抜きで丸めます。 */
-.hero::before,
-.hero::after {
+.hero {
+  /* ===== ヒーロー形状の共通値 ===== */
+  --hero-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
+
+  /* ロゴ部分の横幅 */
+  --hero-notch-width: 20.833333%;
+
+  /* ロゴ部分の高さ */
+  --hero-notch-height: var(--header-height);
+
+  position: relative;
+
+  height: 62.5vw;
+  max-height: 1200px;
+
+  overflow: hidden;
+
+  /*
+   * ① 右上
+   * ② 右下
+   * ③ 左下
+   *
+   * 左上の通常の角丸は切り欠き部分に隠れるため、
+   * 実際には①〜③だけが見えます。
+   */
+  border-radius: var(--hero-radius);
+
+  isolation: isolate;
+}
+
+
+/* ==================================================
+   左上の「ロゴ用切り欠き」
+
+   この白い長方形そのものが
+   ロゴが入る領域になります。
+
+   border-bottom-right-radius によって
+   ⑤の丸みを作ります。
+
+       ┌─────────────
+       │   ロゴ領域
+       │
+       │           ╭─ ⑤
+       └───────────╯
+
+   ⑤は画像を削るのではなく、
+   白い領域の右下を削ることで、
+   下にある画像を露出させています。
+   ================================================== */
+
+.hero::before {
   content: "";
+
   position: absolute;
   z-index: 1;
-  width: clamp(1.5rem, 2.777778vw, 3.333333rem);
-  aspect-ratio: 1;
+
+  top: 0;
+  left: 0;
+
+  width: var(--hero-notch-width);
+  height: var(--hero-notch-height);
+
   background: var(--white);
-  border-bottom-right-radius: 100%;
+
+  /*
+   * ⑤
+   * ロゴ右下の「内向き」の丸み
+   */
+  border-bottom-right-radius: var(--hero-radius);
+
   pointer-events: none;
 }
 
-.hero::before {
-  top: 0;
-  left: 20.833333%;
-}
+
+/* ==================================================
+   ④・⑥を作る白い切り抜き
+
+   ::after 1個の中に
+   radial-gradient を2個配置します。
+
+   ・左下 → ④
+   ・右上 → ⑥
+   ================================================== */
 
 .hero::after {
-  top: var(--header-height);
+  content: "";
+
+  position: absolute;
+  z-index: 1;
+
+  top: 0;
   left: 0;
+
+  /*
+   * ④と⑥の両方を含む範囲だけ用意する
+   */
+  width: calc(var(--hero-notch-width) + var(--hero-radius));
+
+  height: calc(var(--hero-notch-height) + var(--hero-radius));
+
+  pointer-events: none;
+
+  background:
+
+    /*
+     * ④
+     * ロゴ左下部分
+     *
+     * 左下に配置した正方形から
+     * 1/4円部分だけ画像を残します。
+     */
+    radial-gradient(circle var(--hero-radius) at 100% 100%,
+      transparent calc(var(--hero-radius) - 0.75px),
+      var(--white) var(--hero-radius)) left bottom / var(--hero-radius) var(--hero-radius) no-repeat,
+
+
+    /*
+     * ⑥
+     * ロゴ右上部分
+     */
+    radial-gradient(circle var(--hero-radius) at 100% 100%,
+      transparent calc(var(--hero-radius) - 0.75px),
+      var(--white) var(--hero-radius)) right top / var(--hero-radius) var(--hero-radius) no-repeat;
 }
+
+
+/* ==================================================
+   ヒーロー画像
+   ================================================== */
 
 .hero>img {
   width: 100%;
   height: 100%;
+
+  display: block;
+
   object-fit: cover;
   object-position: 50% 50%;
 }
 
+
+/* ==================================================
+   キャッチコピー
+   ================================================== */
+
 .hero h1 {
   position: absolute;
+  z-index: 2;
+
   left: 2.777778%;
   bottom: 6.111111%;
-  padding: .04em .35em .12em;
+
+  padding: 0.04em 0.35em 0.12em;
+
   border: 3px solid var(--green);
-  border-radius: .24em;
+  border-radius: 0.24em;
+
   background: rgb(255 255 255 / 82%);
+
   color: var(--green);
+
   font-size: clamp(2.5rem, 5vw, 6rem);
   font-weight: 700;
   line-height: 1.25;
@@ -885,7 +1056,9 @@ section[id] {
 
 /* タブレット以下は8項目を収めるため、追従する開閉メニューに切り替えます。 */
 @media (max-width: 900px) {
-  :root { --header-height: 110px; }
+  :root {
+    --header-height: 110px;
+  }
 
   .site-header {
     position: sticky;
@@ -992,7 +1165,9 @@ section[id] {
   }
 
   .hero::before,
-  .hero::after { display: none; }
+  .hero::after {
+    display: none;
+  }
 }
 
 /* スマホ版：写真を先頭に置き、カードのグリーンを外して原稿を縦に配置。 */
