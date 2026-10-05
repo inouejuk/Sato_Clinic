@@ -11,7 +11,7 @@
 
 /* 色・余白・写真のサイズは、添付されたPC／スマホのデザインを基準に設定。 */
 :root {
-  --ink: #333333;
+  --ink: #2e3d37;
   --green: #03954C;
   --card: #b5f2d4;
   --white: #ffffff;
@@ -21,6 +21,7 @@
   --section-space: clamp(5rem, 8.333333vw, 10rem);
   --card-height: clamp(20rem, 27.777778vw, 33.333333rem);
   --header-height: min(10.416667vw, 200px);
+  --scroll-offset: calc(var(--header-height) + 1.5rem);
   color: var(--ink);
   font-family: "Noto Sans JP", sans-serif;
   font-size: 16px;
@@ -91,12 +92,12 @@ summary:focus-visible {
 }
 
 section[id] {
-  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  scroll-margin-top: var(--scroll-offset);
 }
 
 #mental-health,
 #hours {
-  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  scroll-margin-top: var(--scroll-offset);
 }
 
 .content {
@@ -131,7 +132,7 @@ section[id] {
   transform: translateY(0);
 }
 
-/* ヘッダーをヒーローに重ねます。PCの追従対象は後段でボタン群に限定。 */
+/* ヘッダーの共通設定。PCの白い帯と配置は後段で指定します。 */
 .site-header {
   position: sticky;
   top: 0;
@@ -196,224 +197,33 @@ section[id] {
   display: none;
 }
 
-@media not all {
-  .hero {
-    position: relative;
-    height: 62.5vw;
-    max-height: 1200px;
-    overflow: hidden;
-    border-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
-  }
-
-  /* ロゴの右上と左下に接する画像の角を、白い切り抜きで丸めます。 */
-  .hero::before,
-  .hero::after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    width: clamp(1.5rem, 2.777778vw, 3.333333rem);
-    aspect-ratio: 1;
-    background: var(--white);
-    border-bottom-right-radius: 100%;
-    pointer-events: none;
-  }
-
-  .hero::before {
-    top: 0;
-    left: 20.833333%;
-  }
-
-  .hero::after {
-    top: var(--header-height);
-    left: 0;
-  }
-
-  .hero>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-  }
-
-  .hero h1 {
-    position: absolute;
-    left: 2.777778%;
-    bottom: 6.111111%;
-    padding: .04em .35em .12em;
-    border: 3px solid var(--green);
-    border-radius: .24em;
-    background: rgb(255 255 255 / 82%);
-    color: var(--green);
-    font-size: clamp(2.5rem, 5vw, 6rem);
-    font-weight: 700;
-    line-height: 1.25;
-  }
-
-  /
-}
-
+/* ヒーローは写真を角丸の長方形に収めます。 */
 .hero {
-  /* ===== ヒーロー形状の共通値 ===== */
-  --hero-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
-
-  /* ロゴ部分の横幅 */
-  --hero-notch-width: 20.833333%;
-
-  /* ロゴ部分の高さ */
-  --hero-notch-height: var(--header-height);
-
   position: relative;
-
   height: 62.5vw;
   max-height: 1200px;
-
   overflow: hidden;
-
-  /*
-   * ① 右上
-   * ② 右下
-   * ③ 左下
-   *
-   * 左上の通常の角丸は切り欠き部分に隠れるため、
-   * 実際には①〜③だけが見えます。
-   */
-  border-radius: var(--hero-radius);
-
+  border-radius: clamp(1.5rem, 2.777778vw, 3.333333rem);
   isolation: isolate;
 }
-
-
-/* ==================================================
-   左上の「ロゴ用切り欠き」
-
-   この白い長方形そのものが
-   ロゴが入る領域になります。
-
-   border-bottom-right-radius によって
-   ⑤の丸みを作ります。
-
-       ┌─────────────
-       │   ロゴ領域
-       │
-       │           ╭─ ⑤
-       └───────────╯
-
-   ⑤は画像を削るのではなく、
-   白い領域の右下を削ることで、
-   下にある画像を露出させています。
-   ================================================== */
-
-.hero::before {
-  content: "";
-
-  position: absolute;
-  z-index: 1;
-
-  top: 0;
-  left: 0;
-
-  width: var(--hero-notch-width);
-  height: var(--hero-notch-height);
-
-  background: var(--white);
-
-  /*
-   * ⑤
-   * ロゴ右下の「内向き」の丸み
-   */
-  border-bottom-right-radius: var(--hero-radius);
-
-  pointer-events: none;
-}
-
-
-/* ==================================================
-   ④・⑥を作る白い切り抜き
-
-   ::after 1個の中に
-   radial-gradient を2個配置します。
-
-   ・左下 → ④
-   ・右上 → ⑥
-   ================================================== */
-
-.hero::after {
-  content: "";
-
-  position: absolute;
-  z-index: 1;
-
-  top: 0;
-  left: 0;
-
-  /*
-   * ④と⑥の両方を含む範囲だけ用意する
-   */
-  width: calc(var(--hero-notch-width) + var(--hero-radius));
-
-  height: calc(var(--hero-notch-height) + var(--hero-radius));
-
-  pointer-events: none;
-
-  background:
-
-    /*
-     * ④
-     * ロゴ左下部分
-     *
-     * 左下に配置した正方形から
-     * 1/4円部分だけ画像を残します。
-     */
-    radial-gradient(circle var(--hero-radius) at 100% 100%,
-      transparent calc(var(--hero-radius) - 0.75px),
-      var(--white) var(--hero-radius)) left bottom / var(--hero-radius) var(--hero-radius) no-repeat,
-
-
-    /*
-     * ⑥
-     * ロゴ右上部分
-     */
-    radial-gradient(circle var(--hero-radius) at 100% 100%,
-      transparent calc(var(--hero-radius) - 0.75px),
-      var(--white) var(--hero-radius)) right top / var(--hero-radius) var(--hero-radius) no-repeat;
-}
-
-
-/* ==================================================
-   ヒーロー画像
-   ================================================== */
 
 .hero>img {
   width: 100%;
   height: 100%;
-
-  display: block;
-
   object-fit: cover;
   object-position: 50% 50%;
 }
 
-
-/* ==================================================
-   キャッチコピー
-   ================================================== */
-
 .hero h1 {
   position: absolute;
   z-index: 2;
-
   left: 2.777778%;
   bottom: 6.111111%;
-
-  padding: 0.04em 0.35em 0.12em;
-
+  padding: .04em .35em .12em;
   border: 3px solid var(--green);
-  border-radius: 0.24em;
-
+  border-radius: .24em;
   background: rgb(255 255 255 / 82%);
-
   color: var(--green);
-
   font-size: clamp(2.5rem, 5vw, 6rem);
   font-weight: 700;
   line-height: 1.25;
@@ -1172,11 +982,6 @@ section[id] {
     font-size: 1.25rem;
     font-weight: 700;
   }
-
-  .hero::before,
-  .hero::after {
-    display: none;
-  }
 }
 
 /* スマホ版：写真を先頭に置き、原稿を縦に配置。スタッフは後段でカード化。 */
@@ -1648,28 +1453,81 @@ section[id] {
   padding-top: 0;
 }
 
-/* 横並びメニューではボタン群だけを追従させ、ロゴはページと一緒に流します。 */
+/* PCはロゴとボタンを一枚の白い帯にまとめ、写真の上に配置します。 */
 @media (min-width: 901px) {
+  :root {
+    --header-height: clamp(96px, 10.416667vw, 160px);
+    --scroll-offset: 1.5rem;
+  }
+
   .site-header,
   .subpage .site-header {
     position: relative;
+    align-items: center;
+    gap: clamp(24px, 4vw, 64px);
+    margin-bottom: 0;
+    padding-inline: 3.125%;
+    background: rgb(255 255 255 / 50%);
+  }
+
+  .brand {
+    flex: 0 0 18%;
+    width: 18%;
+    height: auto;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .brand img {
+    width: 100%;
   }
 
   .desktop-nav,
   .subpage .desktop-nav {
-    --nav-band-space: clamp(12px, 1.388889vw, 24px);
-    position: fixed;
-    top: calc(2.777778vw - var(--nav-band-space));
-    right: 0;
-    left: 20.833333%;
-    z-index: 10;
-    padding-block: var(--nav-band-space);
-    background: rgb(255 255 255 / 50%);
+    min-width: 0;
+    padding: 0;
   }
 
-  .subpage .desktop-nav {
-    top: calc(var(--header-height) / 2);
-    transform: translateY(-50%);
+  .desktop-nav ul {
+    gap: clamp(6px, 1vw, 20px);
+  }
+
+  .desktop-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: .4em .5em;
+    border: 0;
+    border-radius: .4em;
+    background: #09d46f;
+    color: var(--white);
+    font-size: clamp(.75rem, 1.25vw, 1.5rem);
+    box-shadow: none;
+  }
+
+  .desktop-nav a:hover,
+  .desktop-nav a:focus-visible {
+    background: var(--green);
+    color: var(--white);
+  }
+
+  .hero {
+    height: auto;
+    max-height: none;
+    aspect-ratio: 1.92;
+  }
+
+  .hero h1 {
+    top: 5%;
+    bottom: auto;
+    left: 2.083333%;
+    padding: .18em 1em .25em;
+    border: 0;
+    border-radius: .35em;
+    background: rgb(255 255 255 / 65%);
+    color: #09d46f;
+    font-size: clamp(2rem, 4.166667vw, 4.5rem);
   }
 }
 
@@ -1800,7 +1658,7 @@ section[id] {
 }
 
 .subpage .feature-card[id] {
-  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  scroll-margin-top: var(--scroll-offset);
 }
 
 .subpage .feature-copy h2 {
@@ -2124,7 +1982,7 @@ section[id] {
 }
 
 .carousel-slide[id] {
-  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  scroll-margin-top: var(--scroll-offset);
 }
 
 /* スマホの写真とスタッフ紹介は、原稿を保ったまま横にスワイプできます。 */
