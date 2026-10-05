@@ -29,10 +29,11 @@
         <li><a href="#departments">診療科目</a></li>
       </ul>
     </nav>
-    <details class="mobile-menu">
-      <summary class="menu-trigger"><span class="visually-hidden">メニューを開閉</span><span class="menu-bars"
-          aria-hidden="true"></span></summary>
-      <nav class="mobile-nav" aria-label="スマホ用メニュー">
+    <div class="mobile-menu">
+      <span class="menu-state" id="mobile-menu-open" aria-hidden="true"></span>
+      <a class="menu-trigger menu-open" href="#mobile-menu-open" aria-controls="mobile-navigation" aria-expanded="false"><span class="visually-hidden">メニューを開く</span><span class="menu-bars" aria-hidden="true"></span></a>
+      <a class="menu-trigger menu-close" href="#mobile-menu-closed" aria-controls="mobile-navigation" aria-expanded="true"><span class="visually-hidden">メニューを閉じる</span><span class="menu-bars" aria-hidden="true"></span></a>
+      <nav class="mobile-nav" id="mobile-navigation" aria-label="スマホ用メニュー">
         <ul>
           <li><a href="#top">トップ</a></li>
           <li><a href="#news">お知らせ</a></li>
@@ -44,7 +45,7 @@
           <li><a href="#departments">診療科目</a></li>
         </ul>
       </nav>
-    </details>
+    </div>
   </header>
 
   <main id="main-content">

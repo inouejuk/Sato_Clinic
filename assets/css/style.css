@@ -24,7 +24,7 @@
   --scroll-offset: calc(var(--header-height) + 1.5rem);
   color: var(--ink);
   font-family: "Noto Sans JP", sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-synthesis: none;
 }
 
@@ -244,6 +244,8 @@ section[id] {
 .hero-hours img {
   width: 100%;
   height: auto;
+  border-radius: 1.5% / 6.5%;
+  background: var(--ink);
 }
 
 .gallery {
@@ -944,6 +946,24 @@ section[id] {
     height: 56px;
   }
 
+  /* リンク先へ移動すると :target が外れ、メニューも閉じます。 */
+  .menu-state,
+  .menu-close {
+    display: none;
+  }
+
+  .menu-state:target ~ .menu-open {
+    display: none;
+  }
+
+  .menu-state:target ~ .menu-close {
+    display: flex;
+  }
+
+  .menu-state:target ~ .mobile-nav {
+    display: block;
+  }
+
   .menu-bars,
   .menu-bars::before,
   .menu-bars::after {
@@ -969,21 +989,22 @@ section[id] {
     top: 17px;
   }
 
-  .mobile-menu[open] .menu-bars {
+  .menu-close .menu-bars {
     background: transparent;
   }
 
-  .mobile-menu[open] .menu-bars::before {
+  .menu-close .menu-bars::before {
     top: 0;
     transform: rotate(45deg);
   }
 
-  .mobile-menu[open] .menu-bars::after {
+  .menu-close .menu-bars::after {
     top: 0;
     transform: rotate(-45deg);
   }
 
   .mobile-nav {
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
