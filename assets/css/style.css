@@ -198,6 +198,10 @@ section[id] {
 }
 
 /* ヒーローは写真を角丸の長方形に収めます。 */
+.hero-layout {
+  position: relative;
+}
+
 .hero {
   position: relative;
   height: 62.5vw;
@@ -227,6 +231,19 @@ section[id] {
   font-size: clamp(2.5rem, 5vw, 6rem);
   font-weight: 700;
   line-height: 1.25;
+}
+
+/* 支給の診療表はPCで写真の右下に重ね、スマホでは写真の下に配置します。 */
+.hero-hours {
+  position: absolute;
+  right: 3.5%;
+  bottom: 6.25%;
+  width: 45.5%;
+}
+
+.hero-hours img {
+  width: 100%;
+  height: auto;
 }
 
 .gallery {
@@ -873,6 +890,14 @@ section[id] {
   }
 }
 
+/* 開閉メニューを使うタブレット幅でも、見出しと診療表が重ならない位置にします。 */
+@media (min-width: 768px) and (max-width: 900px) {
+  .hero h1 {
+    top: 24px;
+    bottom: auto;
+  }
+}
+
 /* タブレット以下は8項目を収めるため、追従する開閉メニューに切り替えます。 */
 @media (max-width: 900px) {
   :root {
@@ -1022,6 +1047,12 @@ section[id] {
     white-space: nowrap;
     border-width: 2px;
     border-radius: .45em;
+  }
+
+  .hero-hours {
+    position: static;
+    width: auto;
+    margin: 24px 24px 0;
   }
 
   .gallery {
