@@ -131,7 +131,7 @@ section[id] {
   transform: translateY(0);
 }
 
-/* PCのヘッダーはヒーローに重ねたままスクロールに追従します。 */
+/* ヘッダーをヒーローに重ねます。PCの追従対象は後段でボタン群に限定。 */
 .site-header {
   position: sticky;
   top: 0;
@@ -1646,6 +1646,31 @@ section[id] {
 
 .subpage .desktop-nav {
   padding-top: 0;
+}
+
+/* 横並びメニューではボタン群だけを追従させ、ロゴはページと一緒に流します。 */
+@media (min-width: 901px) {
+  .site-header,
+  .subpage .site-header {
+    position: relative;
+  }
+
+  .desktop-nav,
+  .subpage .desktop-nav {
+    --nav-band-space: clamp(12px, 1.388889vw, 24px);
+    position: fixed;
+    top: calc(2.777778vw - var(--nav-band-space));
+    right: 0;
+    left: 20.833333%;
+    z-index: 10;
+    padding-block: var(--nav-band-space);
+    background: rgb(255 255 255 / 50%);
+  }
+
+  .subpage .desktop-nav {
+    top: calc(var(--header-height) / 2);
+    transform: translateY(-50%);
+  }
 }
 
 .subpage .desktop-nav a[aria-current="page"] {
