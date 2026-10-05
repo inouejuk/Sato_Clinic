@@ -555,7 +555,7 @@ section[id] {
   border: 3px solid var(--ink);
   border-radius: .16em;
   background: var(--green);
-  color: var(--ink);
+  color: var(--white);
   font-size: clamp(1.125rem, 1.875vw, 2.25rem);
   font-weight: 700;
   line-height: 1.35;
