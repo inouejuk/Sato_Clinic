@@ -728,6 +728,15 @@ section[id] {
   grid-template-areas: "copy photo";
 }
 
+/* トップの8項目は、淡いグリーン・写真・本文を1枚のカードとして見せます。 */
+@media (min-width: 768px) {
+  .feature-card--raised {
+    border: 1px solid rgb(46 61 55 / 12%);
+    box-shadow: 0 10px 24px rgb(46 61 55 / 12%);
+    color: #2e3d37;
+  }
+}
+
 .feature-photo {
   grid-area: photo;
   width: 100%;
@@ -2347,7 +2356,7 @@ section[id] {
   transition: none;
 }
 
-/* 写真のフェードアップは、PCレイアウトと同じ768px以上で有効にします。 */
+/* 写真とカード全体のフェードアップは、768px以上のPCレイアウトで有効にします。 */
 @media (min-width: 768px) {
   .fade-up {
     opacity: 0;
@@ -2360,5 +2369,14 @@ section[id] {
   .fade-up.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* 動きの軽減設定では、カードの内容を初めから移動なしで表示します。 */
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .feature-card--raised.fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
